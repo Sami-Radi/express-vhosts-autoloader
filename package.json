@@ -14,11 +14,11 @@
     "supertest": "^1.1.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sami-Radi/Node.js-Express-Vhosts.git"
+    "url": "git+https://github.com/Sami-Radi/express-vhosts-autoloader.git"
   },
   "keywords": [
     "vhost",
@@ -35,7 +35,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Sami-Radi/Node.js-Express-Vhosts/issues"
+    "url": "https://github.com/Sami-Radi/express-vhosts-autoloader/issues"
   },
-  "homepage": "https://github.com/Sami-Radi/Node.js-Express-Vhosts#readme"
+  "homepage": "https://github.com/Sami-Radi/express-vhosts-autoloader#readme"
 }
