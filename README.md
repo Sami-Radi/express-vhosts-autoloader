@@ -35,17 +35,28 @@ And your domain names (pointing to your server) are :
 ```javascript
 // Load express.
 var express = require('express');
+
 // Load express vhosts autoloader.
 var vhostsAutoloader = require('express-vhosts-autoloader');
+
 // Create express server.
 var expressServer = express();
+
 // Trigger vhostsAutoloader with expressServer as parameter.
 var expressServer = vhostsAutoloader(expressServer);
+
+// Start your express web server
+var port = process.env['PORT'] || 80;
+var server = expressServer.listen(port, function() {
+  console.log( 'Server listening on port %d ', port );
+});
 ```
 
 It works !
 
 The express vhosts autoloader will load each app.js module in each folder as an express middleware triggered only when the required host (i.e domain name) is provided.
+
+Each app.js middleware should end with something like `module.exports.app = app` or `exports.app = app`
 
 ## API
 

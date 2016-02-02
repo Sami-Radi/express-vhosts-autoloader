@@ -139,9 +139,9 @@ var loadVhost = function loadVhost(options) {
           that.expressServer.use(vhost(options.domainName, module[options.exportsProperty]));
         } else {
           if (options.autoloader) {
-            logger.error('Failed to load (automatically) "' + options.domainName + '" module.');
+            logger.error('Failed to load (automatically) "' + options.domainName + '" module. "module.exports.' + options.exportsProperty + '" not found in "' + moduleFile + '".');
           } else {
-            logger.error('Failed to load (manually) "' + options.domainName + '" module.');
+            logger.error('Failed to load (manually) "' + options.domainName + '" module. "module.exports.' + options.exportsProperty + '" not found in "' + moduleFile + '".');
           };
           that.expressServer.use(function (req, res, next) {
             res.status(500).send('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Error 500 : Internal server error</title></head><body><h1>Error 500 : Internal server error</h1><p>Your module for this virtual host should end with <b><code>module.exports.' + options.exportsProperty + ' = </code> <i>&lt;yourExpressMiddleware&gt;</i>.</p></body></html>');
