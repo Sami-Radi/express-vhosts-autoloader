@@ -129,6 +129,3 @@ For www<i></i>.foobarfoo.com folder ./www<i></i>.foobarfoo.com will be served, f
 ## License
 
 [MIT](LICENSE)
-=======
-# express-vhosts-autoloader
-Autoloads express middlewares using the hostname as the module foldername.
