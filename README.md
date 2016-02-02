@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # express vhosts autoloader
 
 This module helps you create an Express JS server with virtual hosts auto and manual management.
@@ -21,17 +20,17 @@ My Server Folder :
 * server.js
 * node_modules
   * vhosts-server
-* www.<i></i>nodeapp1.com
+* www<i></i>.nodeapp1.com
   * app.js  
-* www.<i></i>nodeapp2.com
+* www<i></i>.nodeapp2.com
   * app.js
-* www.<i></i>nodeapp3.com
+* www<i></i>.nodeapp3.com
   * app.js 
 
 And your domain names (pointing to your server) are :
-* www.<i></i>nodeapp1.com
-* www.<i></i>nodeapp2.com
-* www.<i></i>nodeapp3.com
+* www<i></i>.nodeapp1.com
+* www<i></i>.nodeapp2.com
+* www<i></i>.nodeapp3.com
 
 ```javascript
 // Load express.
@@ -88,7 +87,7 @@ expressVhostsAutoloader.load({
   domainName:'www.foo.com'
 });
 ```
-For www.foo.com folder ./www.<i></i>foo.com will be served and app.js module required, needs module.exports.app to be set in app.js
+For www.foo.com folder ./www<i></i>.foo.com will be served and app.js module required, needs module.exports.app to be set in app.js
 
 ```javascript
 expressVhostsAutoloader.load({
@@ -96,7 +95,7 @@ expressVhostsAutoloader.load({
   mainFile:'index'
 });
 ```
-For www.foobar.com folder ./www.<i></i>foobar.com will be served and index.js module required, needs module.exports.index to be set in index.js
+For www.foobar.com folder ./www<i></i>.foobar.com will be served and index.js module required, needs module.exports.index to be set in index.js
 
 ```javascript
 expressVhostsAutoloader.load({
@@ -105,7 +104,7 @@ expressVhostsAutoloader.load({
   exportsProperty:'bar'
 });
 ```
-For www.foobarfoo.com folder ./www.<i></i>foobarfoo.com will be served, index.js module required, needs module.exports.bar to be set in index.js
+For www.foobarfoo.com folder ./www<i></i>.foobarfoo.com will be served, index.js module required, needs module.exports.bar to be set in index.js
 
 Used **without calling** `expressVhostsAutoloader`
 
@@ -124,7 +123,7 @@ expressVhostsAutoloader.load({
   expressServer:expressServer
 });
 ```
-For www.foobarfoo.com folder ./www.<i></i>foobarfoo.com will be served, foo.js module required, needs module.exports.bar to be set in foo.js
+For www.foobarfoo.com folder ./www<i></i>.foobarfoo.com will be served, foo.js module required, needs module.exports.bar to be set in foo.js
 
 ## License
 
@@ -132,4 +131,3 @@ For www.foobarfoo.com folder ./www.<i></i>foobarfoo.com will be served, foo.js m
 =======
 # express-vhosts-autoloader
 Autoloads express middlewares using the hostname as the module foldername.
->>>>>>> cdb57885cc8ff08a50eff9dad78669c37da278cd
