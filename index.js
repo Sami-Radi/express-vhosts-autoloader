@@ -90,6 +90,13 @@ var loadVhost = function loadVhost(options) {
       throw new TypeError('"options.mainFile" is expected to be a string.');
     };
 
+    // compatibility code for ES < 6
+    if (typeof String.prototype.endsWith !== 'function') {
+        String.prototype.endsWith = function(suffix) {
+            return this.indexOf(suffix, this.length - suffix.length) !== -1;
+        };
+    };
+
     if(options.mainFile.endsWith('.js')){
       options.mainFile = options.mainFile.substring(0, options.mainFile.length - '.js'.length);
     };
