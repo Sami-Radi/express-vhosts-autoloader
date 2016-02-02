@@ -1,0 +1,41 @@
+{
+  "name": "express-vhosts-autoloader",
+  "version": "0.0.2",
+  "description": "Autoloads express middlewares using the hostname as the module foldername.",
+  "main": "index.js",
+  "dependencies": {
+    "winston": "^2.1.1",
+    "vhost": "^3.0.2"
+  },
+  "devDependencies": {
+    "express": "^4.13.4",
+    "mocha": "^2.4.5",
+    "really-need": "^1.9.0",
+    "supertest": "^1.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sami-Radi/Node.js-Express-Vhosts.git"
+  },
+  "keywords": [
+    "vhost",
+    "vhosts",
+    "virtual",
+    "host",
+    "hosts",
+    "express",
+    "autoload"
+  ],
+  "author": {
+    "name": "Sami Radi",
+    "email": "sami.radi@virtuoworks.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sami-Radi/Node.js-Express-Vhosts/issues"
+  },
+  "homepage": "https://github.com/Sami-Radi/Node.js-Express-Vhosts#readme"
+}
