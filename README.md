@@ -117,7 +117,7 @@ vhostsAutoloader.loadVhost({
   exportsProperty:'bar'
 });
 ```
-For `www.foobarfoo.com folder` `.\www.foobarfoo.com` will be served, `index.js` module required, needs `module.exports.bar` to be set in `index.js`.
+For `www.foobarfoo.com` folder `.\www.foobarfoo.com` will be served, `index.js` module required, needs `module.exports.bar` to be set in `index.js`.
 
 Used **without calling** `vhostsAutoloader`
 
