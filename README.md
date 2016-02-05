@@ -21,17 +21,17 @@ My Server Folder :
 * `node_modules`
   * `express`
   * `express-vhosts-autoloader`
-* `www<i></i>.nodeapp1.com`
+* `www.nodeapp1.com`
   * `app.js `
-* `www<i></i>.nodeapp2.com`
+* `www.nodeapp2.com`
   * `app.js`
-* `www<i></i>.nodeapp3.com`
+* `www.nodeapp3.com`
   * `app.js`
 
 And your domain names (pointing to your server) are :
-* www<i></i>.nodeapp1.com
-* www<i></i>.nodeapp2.com
-* www<i></i>.nodeapp3.com
+* `www.nodeapp1.com`
+* `www.nodeapp2.com`
+* `www.nodeapp3.com`
 
 ```javascript
 // Load express.
@@ -100,7 +100,7 @@ vhostsAutoloader.loadVhost({
   domainName:'www.foo.com'
 });
 ```
-For `www<i></i>.foo.com` folder `.\www<i></i>.foo.com` will be served and `app.js` module required, needs `module.exports.app` to be set in `app.js`.
+For `www.foo.com` folder `.\www.foo.com` will be served and `app.js` module required, needs `module.exports.app` to be set in `app.js`.
 
 ```javascript
 vhostsAutoloader.loadVhost({
@@ -108,7 +108,7 @@ vhostsAutoloader.loadVhost({
   mainFile:'index'
 });
 ```
-For `www<i></i>.foobar.com` folder `.\www<i></i>.foobar.com` will be served and `index.js` module required, needs `module.exports.index` to be set in `index.js`.
+For `www.foobar.com` folder `.\www.foobar.com` will be served and `index.js` module required, needs `module.exports.index` to be set in `index.js`.
 
 ```javascript
 vhostsAutoloader.loadVhost({
@@ -117,7 +117,7 @@ vhostsAutoloader.loadVhost({
   exportsProperty:'bar'
 });
 ```
-For `www<i></i>.foobarfoo.com folder` `.\www<i></i>.foobarfoo.com` will be served, `index.js` module required, needs `module.exports.bar` to be set in `index.js`.
+For `www.foobarfoo.com folder` `.\www.foobarfoo.com` will be served, `index.js` module required, needs `module.exports.bar` to be set in `index.js`.
 
 Used **without calling** `vhostsAutoloader`
 
@@ -136,7 +136,7 @@ vhostsAutoloader.loadVhost({
   expressServer:expressServer
 });
 ```
-For `www<i></i>.foobarfoo.com` folder `.\www<i></i>.foobarfoo.com` will be served, `foo.js` module required, needs `module.exports.bar` to be set in `foo.js`.
+For `www.foobarfoo.com` folder `.\www.foobarfoo.com` will be served, `foo.js` module required, needs `module.exports.bar` to be set in `foo.js`.
 
 ## License
 
