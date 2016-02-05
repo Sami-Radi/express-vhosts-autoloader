@@ -17,15 +17,16 @@ Your folder names **must** be the same as your domain names in order for this mo
 Let's assume you have this folder structure :
 
 My Server Folder :
-* server.js
-* node_modules
-  * vhosts-server
-* www<i></i>.nodeapp1.com
-  * app.js  
-* www<i></i>.nodeapp2.com
-  * app.js
-* www<i></i>.nodeapp3.com
-  * app.js 
+* `server.js`
+* `node_modules`
+  * `express`
+  * `express-vhosts-autoloader`
+* `www<i></i>.nodeapp1.com`
+  * `app.js `
+* `www<i></i>.nodeapp2.com`
+  * `app.js`
+* `www<i></i>.nodeapp3.com`
+  * `app.js`
 
 And your domain names (pointing to your server) are :
 * www<i></i>.nodeapp1.com
@@ -43,7 +44,7 @@ var vhostsAutoloader = require('express-vhosts-autoloader');
 var expressServer = express();
 
 // Trigger vhostsAutoloader with expressServer as parameter.
-var expressServer = vhostsAutoloader(expressServer);
+expressServer = vhostsAutoloader(expressServer);
 
 // Start your express web server
 var port = process.env['PORT'] || 80;
@@ -56,19 +57,19 @@ It works !
 
 The express vhosts autoloader will load each app.js module in each folder as an express middleware triggered only when the required host (i.e domain name) is provided.
 
-Each app.js middleware should end with something like `module.exports.app = app` or `exports.app = app`
+Each `app.js` middleware should end with something like `module.exports.app = app` or `exports.app = app`
 
 ## API
 
 ### vhostsAutoloader(expressServer, options)
 
-This function tries to load any app.js file in any folder in the server root folder as an express middleware trigger only when the required domain name is provider in the request.
+This function tries to load any `app.js` file in any folder in the server root folder as an express middleware trigger only when the required domain name is provider in the request.
 
 * `expressServer` (object, **required**) express server instance.
 
-* `options` : object.
+* `options` : (object, optional).
   *  `options.debug` (boolean, optional) : defaults to `false`. If `true` makes the module more verbose in the console.
-  *  `options.folder` (string, optional) : defaults to server root directory. If set `vhostsAutoloader` tries to load any app.js from the folder provided.
+  *  `options.folder` (string, optional) : defaults to server root directory. If set `vhostsAutoloader` tries to load any `app.js` from the folder provided.
 
 ##### Example :
 
@@ -82,11 +83,11 @@ var expressServer = vhostsAutoloader(expressServer, {
 
 This utility method loads an express middleware triggered only when the required host (i.e domain name) is provided. 
 
-* `options` : object.
+* `options` : (object, **required**).
   *  `options.debug` (boolean) : defaults to `false`. If `true` makes the module more verbose in the console.
   *  `options.domainName` (string, **required**) : the domain name / folder name
-  *  `options.mainFile` (string, optional) : defaults to app. If set the method will try to load the file named after the provided value. 
-  *  `options.exportsProperty` (string, optional) : defaults to app. If set the method will try to use the exports property named after the provided value
+  *  `options.mainFile` (string, optional) : defaults to `'app'`. If set the method will try to load the file named after the provided value. 
+  *  `options.exportsProperty` (string, optional) : defaults to `'app'`. If set the method will try to use the exports property named after the provided value
   *  `options.expressServer` (object, optional | required) : Optional if used after calling `vhostsAutoloader`. **Required** if `vhostsAutoloader.loadVhost` is used alone.
   *  `options.folder` (object, optional) : defaults to server root directory. If set `vhostsAutoloader.loadVhost` tries to load the module from the `folder\domainName` folder.
  
@@ -99,7 +100,7 @@ vhostsAutoloader.loadVhost({
   domainName:'www.foo.com'
 });
 ```
-For www<i></i>.foo.com folder ./www<i></i>.foo.com will be served and app.js module required, needs module.exports.app to be set in app.js
+For `www<i></i>.foo.com` folder `.\www<i></i>.foo.com` will be served and `app.js` module required, needs `module.exports.app` to be set in `app.js`.
 
 ```javascript
 vhostsAutoloader.loadVhost({
@@ -107,7 +108,7 @@ vhostsAutoloader.loadVhost({
   mainFile:'index'
 });
 ```
-For www<i></i>.foobar.com folder ./www<i></i>.foobar.com will be served and index.js module required, needs module.exports.index to be set in index.js
+For `www<i></i>.foobar.com` folder `.\www<i></i>.foobar.com` will be served and `index.js` module required, needs `module.exports.index` to be set in `index.js`.
 
 ```javascript
 vhostsAutoloader.loadVhost({
@@ -116,7 +117,7 @@ vhostsAutoloader.loadVhost({
   exportsProperty:'bar'
 });
 ```
-For www<i></i>.foobarfoo.com folder ./www<i></i>.foobarfoo.com will be served, index.js module required, needs module.exports.bar to be set in index.js
+For `www<i></i>.foobarfoo.com folder` `.\www<i></i>.foobarfoo.com` will be served, `index.js` module required, needs `module.exports.bar` to be set in `index.js`.
 
 Used **without calling** `vhostsAutoloader`
 
@@ -135,7 +136,7 @@ vhostsAutoloader.loadVhost({
   expressServer:expressServer
 });
 ```
-For www<i></i>.foobarfoo.com folder ./www<i></i>.foobarfoo.com will be served, foo.js module required, needs module.exports.bar to be set in foo.js
+For `www<i></i>.foobarfoo.com` folder `.\www<i></i>.foobarfoo.com` will be served, `foo.js` module required, needs `module.exports.bar` to be set in `foo.js`.
 
 ## License
 
