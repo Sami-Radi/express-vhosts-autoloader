@@ -3,6 +3,7 @@
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
 [![Build Status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
 
 This module helps you create an Express JS server with virtual hosts auto and manual management.
 
@@ -152,3 +153,5 @@ For `www.foobarfoo.com` folder `.\www.foobarfoo.com` will be served, `foo.js` mo
 [downloads-url]: https://npmjs.org/package/express-vhosts-autoloader
 [travis-image]: https://api.travis-ci.org/Sami-Radi/express-vhosts-autoloader.svg?branch=master
 [travis-url]: https://travis-ci.org/Sami-Radi/express-vhosts-autoloader
+[coveralls-image]: https://coveralls.io/repos/github/Sami-Radi/express-vhosts-autoloader/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/Sami-Radi/express-vhosts-autoloader?branch=master
