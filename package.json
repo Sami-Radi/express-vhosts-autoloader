@@ -1,17 +1,16 @@
 {
   "name": "express-vhosts-autoloader",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Autoloads express middlewares using the hostname as the module foldername.",
   "main": "index.js",
   "dependencies": {
-    "winston": "^2.1.1",
-    "vhost": "^3.0.2"
+    "vhost": "^3.0.2",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
-    "express": "^4.13.4",
-    "mocha": "^2.4.5",
-    "really-need": "^1.9.0",
-    "supertest": "^1.1.0"
+    "express": "^4.14.1",
+    "mocha": "^3.2.0",
+    "supertest": "^3.0.0"
   },
   "scripts": {
     "test": "mocha test"

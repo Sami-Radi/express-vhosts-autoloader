@@ -1,5 +1,8 @@
 # express vhosts autoloader
 
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+
 This module helps you create an Express JS server with virtual hosts auto and manual management.
 
 ## Install
@@ -44,7 +47,7 @@ var vhostsAutoloader = require('express-vhosts-autoloader');
 var expressServer = express();
 
 // Trigger vhostsAutoloader with expressServer as parameter.
-expressServer = vhostsAutoloader(expressServer);
+vhostsAutoloader(expressServer);
 
 // Start your express web server
 var port = process.env['PORT'] || 80;
@@ -61,7 +64,7 @@ Each `app.js` middleware should end with something like `module.exports.app = ap
 
 ## API
 
-### vhostsAutoloader(expressServer, options)
+### `Promise` <= vhostsAutoloader(expressServer, options)
 
 This function tries to load any `app.js` file in any folder in the server root folder as an express middleware trigger only when the required domain name is provider in the request.
 
@@ -79,7 +82,7 @@ var expressServer = vhostsAutoloader(expressServer, {
   folder: '/home/user'
 });
 ```
-### vhostsAutoloader.loadVhost(options)
+### `Promise` <= vhostsAutoloader.loadVhost(options)
 
 This utility method loads an express middleware triggered only when the required host (i.e domain name) is provided. 
 
@@ -141,3 +144,8 @@ For `www.foobarfoo.com` folder `.\www.foobarfoo.com` will be served, `foo.js` mo
 ## License
 
 [MIT](LICENSE)
+
+[npm-image]: https://img.shields.io/npm/v/express-vhosts-autoloader.svg
+[npm-url]: https://npmjs.org/package/express-vhosts-autoloader
+[downloads-image]: https://img.shields.io/npm/dm/express-vhosts-autoloader.svg
+[downloads-url]: https://npmjs.org/package/express-vhosts-autoloader
