@@ -154,4 +154,4 @@ For `www.foobarfoo.com` folder `.\www.foobarfoo.com` will be served, `foo.js` mo
 [travis-image]: https://api.travis-ci.org/Sami-Radi/express-vhosts-autoloader.svg?branch=master
 [travis-url]: https://travis-ci.org/Sami-Radi/express-vhosts-autoloader
 [coveralls-image]: https://coveralls.io/repos/github/Sami-Radi/express-vhosts-autoloader/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/Sami-Radi/express-vhosts-autoloader?branch=master
+[coveralls-url]: https://coveralls.io/github/Sami-Radi/express-vhosts-autoloader?branch=master&random=2363262
