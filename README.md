@@ -80,7 +80,7 @@ This function tries to load any `app.js` file in any folder in the server root f
 
 ```javascript
 // Tries to load any file in folders located inside /home/user
-var expressServer = vhostsAutoloader(expressServer, {
+vhostsAutoloader(expressServer, {
   folder: '/home/user'
 });
 ```

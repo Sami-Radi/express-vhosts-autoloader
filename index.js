@@ -11,7 +11,9 @@
  * Module dependencies.
  * @private
  */
- 
+// module tag
+const tag = 'Virtual Hosts Autoloader';
+
 // core modules
 var fs = require('fs');
 var path = require('path');
@@ -60,6 +62,11 @@ let loadVhost = function loadVhost(settings) {
   var settings = settings || {};
   return new Promise((resolve, reject) => {
 
+    if (typeof settings !== 'object') {
+      let message = `[${tag}] "settings" must be an object.`;
+      return reject(new TypeError(message));
+    };
+
     if(settings.debug) {
       logger.transports.console.level = 'debug';
     };
@@ -71,26 +78,21 @@ let loadVhost = function loadVhost(settings) {
     if (this.expressServer && typeof this.expressServer === 'function'
       && this.expressServer.use) {
 
-      if (typeof settings !== 'object') {
-        let message = `"settings" must be an object.`;
-        reject(new TypeError(message));
-      };
-
       if (!settings.domainName) {
-        let message = `"settings.domainName" is required.`;
-        reject(new ReferenceError(message));
+        let message = `[${tag}] "settings.domainName" is required.`;
+        return reject(new ReferenceError(message));
       };
 
       if (typeof settings.domainName !== 'string') {
-        let message = `"settings.domainName" is expected to be a string.`;
-        reject(new TypeError(message));
+        let message = `[${tag}] "settings.domainName" is expected to be a string.`;
+        return reject(new TypeError(message));
       };
 
       settings.mainFile = settings.mainFile || 'app';
 
       if (typeof settings.mainFile !== 'string') {
-        let message = `"settings.mainFile" is expected to be a string.`
-        reject(new TypeError(message));
+        let message = `[${tag}] "settings.mainFile" is expected to be a string.`
+        return reject(new TypeError(message));
       };
 
       // compatibility code for ES < 6
@@ -107,35 +109,42 @@ let loadVhost = function loadVhost(settings) {
       settings.exportsProperty = settings.exportsProperty || 'app';
 
       if (typeof settings.exportsProperty !== 'string') {
-        let message = `"settings.exportsProperty" is expected to be a string.`;
-        reject(new TypeError(message));
+        let message = `[${tag}] "settings.exportsProperty" is expected to be a string.`;
+        return reject(new TypeError(message));
       };
 
       settings.folder = settings.folder || path.normalize(process.cwd() + path.sep);
 
       if (typeof settings.folder !== 'string') {
-        let message = `"settings.folder" must be a string.`;
-        reject(new TypeError(message));
+        let message = `[${tag}] "settings.folder" must be a string.`;
+        return reject(new TypeError(message));
       };
 
       var moduleName = path.normalize(settings.folder + path.sep + settings.domainName + path.sep + settings.mainFile);
 
       var moduleFile = moduleName + '.js';
 
-      let message = `Trying to access ${moduleFile} file...`;
+      let message = `[${tag}] Trying to access ${moduleFile} file...`;
       logger.debug(message);
 
       fs.access(moduleFile, fs.R_OK, (error) => {
         if (error) {
-          this.expressServer.use(function (req, res, next) {
-            res.status(500).send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Error 500 : Internal server error</title></head><body><h1>Error 500 : Internal server error</h1><p>The following module &laquo; <b>${moduleFile}</b> &raquo; could not be found.</p></body></html>`);
-            next();
-          });
-          let message = `Module file for ${settings.domainName} not found.`;
+          if(settings.debug) {
+            this.expressServer.use(vhost(settings.domainName, function (req, res, next) {
+              res.status(500).send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Error 500 : Internal server error</title></head><body><h1>Error 500 : Internal server error</h1><p>The following module &laquo; <b>${moduleFile}</b> &raquo; could not be found.</p></body></html>`);
+              next();
+            }));
+          } else {
+            this.expressServer.use(vhost(settings.domainName, function (req, res, next) {
+              res.status(500).send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Error 500 : Internal server error</title></head><body><h1>Error 500 : Internal server error</h1><p>Sorry, something went wrong.</p></body></html>`);
+              next();
+            }));
+          }
+          let message = `[${tag}] Module file for ${settings.domainName} not found.`;
           logger.error(message);
-          reject(new Error(message));
+          return reject(new Error(message));
         } else {
-          let message = `Requiring ${moduleName} module...`;
+          let message = `[${tag}] Requiring ${moduleName} module...`;
           logger.debug(message);
           module = require(moduleName);
           if (module[settings.exportsProperty]
@@ -143,33 +152,40 @@ let loadVhost = function loadVhost(settings) {
             this.expressServer.use(vhost(settings.domainName, module[settings.exportsProperty]));
             let message;
             if (settings.autoloader) {
-              message = `"${settings.domainName}" module (automatically) loaded as an Express middleware.`;
+              message = `[${tag}] "${settings.domainName}" module (automatically) loaded as an Express middleware.`;
             } else {
-              message = `"${settings.domainName}" module (manually) loaded as an Express middleware.`;
+              message = `[${tag}] "${settings.domainName}" module (manually) loaded as an Express middleware.`;
             };
             logger.info(message);
-            resolve({
+            return resolve({
               message: message
             });
           } else {
-            this.expressServer.use(function (req, res, next) {
-              res.status(500).send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Error 500 : Internal server error</title></head><body><h1>Error 500 : Internal server error</h1><p>Your module for this virtual host should end with <b><code>module.exports.${settings.exportsProperty} = </code> <i>&lt;yourExpressMiddleware&gt;</i>.</p></body></html>`);
-              next();
-            });
+            if(settings.debug) {
+              this.expressServer.use(vhost(settings.domainName, function (req, res, next) {
+                res.status(500).send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Error 500 : Internal server error</title></head><body><h1>Error 500 : Internal server error</h1><p>Your module for this virtual host should end with <b><code>module.exports.${settings.exportsProperty} = </code> <i>&lt;yourExpressMiddleware&gt;</i>.</p></body></html>`);
+                next();
+              }));
+            } else {
+              this.expressServer.use(vhost(settings.domainName, function (req, res, next) {
+                res.status(500).send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Error 500 : Internal server error</title></head><body><h1>Error 500 : Internal server error</h1><p>Sorry, something went wrong.</p></body></html>`);
+                next();
+              }));
+            }
             let message;
             if (settings.autoloader) {
-              message = `Failed to load (automatically) "${settings.domainName}" module. "module.exports.${settings.exportsProperty}" not found in "${moduleFile}".`;
+              message = `[${tag}] Failed to load (automatically) "${settings.domainName}" module. "module.exports.${settings.exportsProperty}" not found in "${moduleFile}".`;
             } else {
-              message = `Failed to load (manually) "${settings.domainName}" module. "module.exports.${settings.exportsProperty}" not found in "${moduleFile}".`;
+              message = `[${tag}] Failed to load (manually) "${settings.domainName}" module. "module.exports.${settings.exportsProperty}" not found in "${moduleFile}".`;
             };
             logger.error(message);
-            reject(new Error(message));
+            return reject(new Error(message));
           }
         };
       });
     } else {
-      let message = `"settings.expressServer" is expected to be an object.`;
-      reject(new ReferenceError(message));
+      let message = `[${tag}] "settings.expressServer" is expected to be an object.`;
+      return reject(new ReferenceError(message));
     };
   });
 };
@@ -198,33 +214,33 @@ let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
       vhostsAutoloader.expressServer = expressServer;
 
       if (typeof settings !== 'object') {
-        let message = `"settings" must be an object.`;
+        let message = `[${tag}] "settings" must be an object.`;
         logger.error(message);
-        reject(new TypeError(message));
+        return reject(new TypeError(message));
       };
 
       settings.folder = settings.folder || path.normalize(process.cwd() + path.sep);
 
       if (typeof settings.folder !== 'string') {
-        let message = `"settings.folder" must be a string.`;
+        let message = `[${tag}] "settings.folder" must be a string.`;
         logger.error(message);
-        reject(new TypeError(message));
+        return reject(new TypeError(message));
       };
 
       fs.readdir(settings.folder, (error, files) => {
         if (error) {
-          let message = `Cannot read the current working directory : ${settings.folder}.`;
+          let message = `[${tag}] Cannot read the current working directory : ${settings.folder}.`;
           logger.error(message);
-          reject(new Error(message));
+          return reject(new Error(message));
         } else {
           let scan = []
           files.forEach((fileOrFolder) => {
             scan.push(new Promise((resolve, reject) => {
               fs.stat(path.normalize(settings.folder + path.sep + fileOrFolder), (error, stats) => {
                 if (error) {
-                  let message = `Cannot read : ${fileOrFolder}.`;
+                  let message = `[${tag}] Cannot read : ${fileOrFolder}.`;
                   logger.warn(message);
-                  resolve({
+                  return resolve({
                     message: message,
                     error: error
                   });
@@ -233,29 +249,29 @@ let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
                     let moduleFile = path.normalize(settings.folder + path.sep + fileOrFolder + path.sep + 'app.js');
                     fs.access(moduleFile, fs.R_OK, (error) => {
                       if (error) {
-                        let message = `Cannot read/find : ${moduleFile}.`;
+                        let message = `[${tag}] Cannot read/find : ${moduleFile}.`;
                         logger.warn(message);
-                        resolve({
+                        return resolve({
                           message: message,
                           error: error
                         });
                       } else {
-                        let message = `Loading ${moduleFile} module as an Express middleware.`;
+                        let message = `[${tag}] Loading ${moduleFile} module as an Express middleware.`;
                         logger.debug(message);
                         vhostsAutoloader.loadVhost({
                           autoloader: true,
                           folder: settings.folder,
-                          domainName:fileOrFolder,
-                          debug: settings.debug || false,
+                          domainName: fileOrFolder,
+                          debug: false || settings.debug,
                         }).then((data) => {
-                          resolve(data);
+                          return resolve(data);
                         }, (error) => {
-                          resolve(error);
+                          return resolve(error);
                         });
                       };
                     });
                   } else {
-                    let message = `${fileOrFolder} is not a directory.`;
+                    let message = `[${tag}] ${fileOrFolder} is not a directory.`;
                     resolve({
                       message: message
                     });
@@ -265,14 +281,14 @@ let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
             }));
             Promise.all(scan).then((data) => {
               resolve(data);
-            })
+            });
           });
         };
       });
     } else {
-      let message = `Express server is required.`;
+      let message = `[${tag}] Express server is required.`;
       logger.error(message);
-      reject(new ReferenceError(message));
+      return reject(new ReferenceError(message));
     };
   });
 };
