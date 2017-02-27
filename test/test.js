@@ -466,6 +466,45 @@ describe('Virtual hosts manual loader `vhostsAutoloader.loadVhost()`', function(
       });
     });
   });
+  it('responds 500 to http://localhost:' + (process.env['PORT'] || 8080) + ' with bar.js as main file and module.exports.unknown, debug enabled, mocked as automatic.', function (done) {
+    vhostsAutoloader.loadVhost({
+      expressServer:server.app,
+      folder: server.dirname,
+      domainName: 'localhost',
+      mainFile: 'bar',
+      autoloader: true,
+      exportsProperty: 'unknown',
+      debug: true
+    }).then((data) => {
+      done(data);
+    }, (error) => {
+      server.start(() => {
+        request('http://localhost:' + (process.env['PORT'] || 8080))
+          .get('/')
+          .set('Host', 'localhost')
+          .expect(500, done);
+      });
+    });
+  });
+  it('responds 500 to http://localhost:' + (process.env['PORT'] || 8080) + ' with bar.js as main file and module.exports.unknown, debug disabled, mocked as automatic.', function (done) {
+    vhostsAutoloader.loadVhost({
+      expressServer:server.app,
+      folder: server.dirname,
+      domainName: 'localhost',
+      mainFile: 'bar',
+      autoloader: true,
+      exportsProperty: 'unknown'
+    }).then((data) => {
+      done(data);
+    }, (error) => {
+      server.start(() => {
+        request('http://localhost:' + (process.env['PORT'] || 8080))
+          .get('/')
+          .set('Host', 'localhost')
+          .expect(500, done);
+      });
+    });
+  });
   afterEach(function(done){
     // The afterEach() callback gets run after each test in the suite.
     String.prototype.endsWith = endsWith;
