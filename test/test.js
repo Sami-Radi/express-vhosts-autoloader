@@ -88,11 +88,7 @@ describe('Virtual hosts vhostsAutoloader `vhostsAutoloader()`', function() {
   });
   it('responds 200 to http://localhost:' + (process.env['PORT'] || 8080) + ' .', function (done) {
     var unReadeableFile = require('path').normalize(server.dirname + require('path').sep + 'localhost' + require('path').sep + 'baz.js');
-    require('fs').writeFileSync(unReadeableFile, '', {
-      encoding: 'utf8',
-      mode: '0o222',
-      flag: 'w'
-    });
+    require('fs').openSync(unReadeableFile, 'w', parseInt('0000', 8));
     vhostsAutoloader(server.app, {
       folder: server.dirname,
       debug: true
