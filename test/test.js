@@ -194,7 +194,7 @@ describe('Virtual hosts manual loader `vhostsAutoloader.loadVhost()`', function(
       exportsProperty: true,
       debug: true
     }).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -498,6 +498,58 @@ describe('Virtual hosts manual loader `vhostsAutoloader.loadVhost()`', function(
   afterEach(function(done){
     // The afterEach() callback gets run after each test in the suite.
     String.prototype.endsWith = endsWith;
+    server.stop(done);
+  });
+  after(function() {
+    // after() is run after all your tests have completed. Do teardown here.
+    delete require.cache[require.resolve('..')];
+  });
+});
+
+describe('Virtual host file as middleware `vhostsAutoloader.loadAsMiddleWare()`', function() {
+  var server;
+  var vhostsAutoloader;
+  before(function(){
+    // The before() callback gets run before all tests in the suite. Do one-time setup here.
+    vhostsAutoloader = require('..');
+  });
+  beforeEach(function(){
+    // The beforeEach() callback gets run before each test in the suite.
+    delete require.cache[require.resolve('server')];
+    server = require('server');
+  });
+  it('gets rejected if "fileOrFolder" and "settings" is not set.', function (done) {
+    vhostsAutoloader.loadAsMiddleWare().then((data) => {
+      done(new Error('Promise was unexpectedly fulfilled.'))
+    }, (error) => {
+      done(assert(error));
+    });
+  });
+  it('gets rejected if "fileOrFolder" is an illegal character.', function (done) {
+    vhostsAutoloader.loadAsMiddleWare(':').then((data) => {
+      done(new Error('Promise was unexpectedly fulfilled.'))
+    }, (error) => {
+      done(assert(error));
+    });
+  });
+  it('gets rejected if "settings" is not an object.', function (done) {
+    vhostsAutoloader.loadAsMiddleWare('app.js', 'not an object').then((data) => {
+      done(new Error('Promise was unexpectedly fulfilled.'))
+    }, (error) => {
+      done(assert(error));
+    });
+  });
+  it('gets rejected if "settings.folder" is not a string.', function (done) {
+    vhostsAutoloader.loadAsMiddleWare('app.js', {
+      folder: {}
+    }).then((data) => {
+      done(new Error('Promise was unexpectedly fulfilled.'))
+    }, (error) => {
+      done(assert(error));
+    });
+  });
+  afterEach(function(done){
+    // The afterEach() callback gets run after each test in the suite.
     server.stop(done);
   });
   after(function() {

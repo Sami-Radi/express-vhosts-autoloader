@@ -57,7 +57,8 @@ var logger = module.exports = new (winston.Logger)({
  * @param {string} settings.expressServer Optional if used after the virtual
  * hosts autoload. Required otherwise.
  * @param {string} settings.debug (optional) If set will be more verbose.
- */                                                                            
+ * @return {object} A Promise object.
+ */
 let loadVhost = function loadVhost(settings) {
   settings = settings || {};
   return new Promise((resolve, reject) => {
@@ -91,7 +92,7 @@ let loadVhost = function loadVhost(settings) {
       settings.mainFile = settings.mainFile || 'app';
 
       if (typeof settings.mainFile !== 'string') {
-        let message = `[${tag}] "settings.mainFile" is expected to be a string.`
+        let message = `[${tag}] "settings.mainFile" is expected to be a string.`;
         return reject(new TypeError(message));
       }
 
@@ -191,6 +192,85 @@ let loadVhost = function loadVhost(settings) {
 };
 
 /**
+ * Loads a virtual host middleware according to folder name (e.g :
+ * folder www.virtuoworks.com will be bound to www.virtuoworks.com virtual
+ * host).
+ * 
+ * @param {string} fileOrFolder A file or directory name.
+ * @param {object} settings (optional) A settings object.
+ * @param {string} settings.folder (optional) A string representing the folder
+ * where the virtual hosts folders can be found. Defaults to server folder.
+ * @return {object} A Promise object.
+ */
+let loadAsMiddleWare = function loadAsMiddleWare(fileOrFolder, settings) {
+  settings = settings || {};
+  return new Promise((resolve, reject) => {
+
+    if (typeof fileOrFolder !== 'string') {
+      let message = `[${tag}] "fileOrFolder" is expected to be a string.`;
+      return reject(new TypeError(message));
+    }
+
+    if (typeof settings !== 'object') {
+      let message = `[${tag}] "settings" must be an object.`;
+      logger.error(message);
+      return reject(new TypeError(message));
+    }
+
+    settings.folder = settings.folder || path.normalize(process.cwd() + path.sep);
+
+    if (typeof settings.folder !== 'string') {
+      let message = `[${tag}] "settings.folder" must be a string.`;
+      logger.error(message);
+      return reject(new TypeError(message));
+    }
+    
+    fs.stat(path.normalize(settings.folder + path.sep + fileOrFolder), (error, stats) => {
+      if (error) {
+        let message = `[${tag}] Cannot read : ${fileOrFolder}.`;
+        logger.warn(message);
+        return reject({
+          message: message,
+          error: error
+        });
+      } else {
+        if (stats.isDirectory()) {
+          let moduleFile = path.normalize(settings.folder + path.sep + fileOrFolder + path.sep + 'app.js');
+          fs.access(moduleFile, fs.R_OK, (error) => {
+            if (error) {
+              let message = `[${tag}] Cannot read/find : ${moduleFile}.`;
+              logger.warn(message);
+              return reject({
+                message: message,
+                error: error
+              });
+            } else {
+              let message = `[${tag}] Loading ${moduleFile} module as an Express middleware.`;
+              logger.debug(message);
+              vhostsAutoloader.loadVhost({
+                autoloader: true,
+                folder: settings.folder,
+                domainName: fileOrFolder,
+                debug: false || settings.debug,
+              }).then((data) => {
+                return resolve(data);
+              }, (error) => {
+                return reject(error);
+              });
+            }
+          });
+        } else {
+          let message = `[${tag}] ${fileOrFolder} is not a directory.`;
+          reject({
+            message: message
+          });
+        }
+      }
+    });
+  });
+};
+
+/**
  * Auto detects and loads virtual hosts according to folder name (e.g :
  * folder www.virtuoworks.com will be bound to www.virtuoworks.com virtual
  * host).
@@ -199,7 +279,7 @@ let loadVhost = function loadVhost(settings) {
  * @param {object} settings (optional) A settings object.
  * @param {string} settings.folder (optional) A string representing the folder
  * where the virtual hosts folders can be found. Defaults to server folder.
- * @return {object} An express server object
+ * @return {object} A Promise object
  */
 let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
   settings = settings || {};
@@ -233,50 +313,14 @@ let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
           logger.error(message);
           return reject(new Error(message));
         } else {
-          let scan = []
+          let scan = [];
           files.forEach((fileOrFolder) => {
             scan.push(new Promise((resolve, reject) => {
-              fs.stat(path.normalize(settings.folder + path.sep + fileOrFolder), (error, stats) => {
-                if (error) {
-                  let message = `[${tag}] Cannot read : ${fileOrFolder}.`;
-                  logger.warn(message);
-                  return resolve({
-                    message: message,
-                    error: error
-                  });
-                } else {
-                  if (stats.isDirectory()) {
-                    let moduleFile = path.normalize(settings.folder + path.sep + fileOrFolder + path.sep + 'app.js');
-                    fs.access(moduleFile, fs.R_OK, (error) => {
-                      if (error) {
-                        let message = `[${tag}] Cannot read/find : ${moduleFile}.`;
-                        logger.warn(message);
-                        return resolve({
-                          message: message,
-                          error: error
-                        });
-                      } else {
-                        let message = `[${tag}] Loading ${moduleFile} module as an Express middleware.`;
-                        logger.debug(message);
-                        vhostsAutoloader.loadVhost({
-                          autoloader: true,
-                          folder: settings.folder,
-                          domainName: fileOrFolder,
-                          debug: false || settings.debug,
-                        }).then((data) => {
-                          return resolve(data);
-                        }, (error) => {
-                          return resolve(error);
-                        });
-                      }
-                    });
-                  } else {
-                    let message = `[${tag}] ${fileOrFolder} is not a directory.`;
-                    resolve({
-                      message: message
-                    });
-                  }
-                }
+              loadAsMiddleWare(fileOrFolder, settings).then((success) => {
+                resolve(success);
+              }, (error) => {
+                // Ignore all errors.
+                resolve(error);
               });
             }));
             Promise.all(scan).then((data) => {
@@ -294,6 +338,7 @@ let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
 };
 
 vhostsAutoloader.loadVhost = loadVhost;
+vhostsAutoloader.loadAsMiddleWare = loadAsMiddleWare;
 
 /**
  * Expose `vhostsAutoloader()`.
