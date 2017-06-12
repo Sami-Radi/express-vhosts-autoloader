@@ -155,6 +155,6 @@ For `www.foobarfoo.com` folder `.\www.foobarfoo.com` will be served, `foo.js` mo
 [travis-image]: https://api.travis-ci.org/Sami-Radi/express-vhosts-autoloader.svg?branch=master
 [travis-url]: https://travis-ci.org/Sami-Radi/express-vhosts-autoloader
 [coveralls-image]: https://coveralls.io/repos/github/Sami-Radi/express-vhosts-autoloader/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/Sami-Radi/express-vhosts-autoloader?branch=master&random=2363262
+[coveralls-url]: https://coveralls.io/github/Sami-Radi/express-vhosts-autoloader?branch=master&random=32466236
 [codacy-image]: https://api.codacy.com/project/badge/Grade/ac9cdcfa20fd4366b9c0e94bd8e893d8
 [codacy-url]: https://www.codacy.com/app/VirtuoWorks/express-vhosts-autoloader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Sami-Radi/express-vhosts-autoloader&amp;utm_campaign=Badge_Grade
