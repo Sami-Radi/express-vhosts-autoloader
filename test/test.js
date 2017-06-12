@@ -35,14 +35,14 @@ describe('Virtual hosts vhostsAutoloader `vhostsAutoloader()`', function() {
   });
   it('gets rejected if first argument is not an Express server.', function (done) {
     vhostsAutoloader().then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
   });
   it('gets rejected if "settings" is not an object.', function (done) {
     vhostsAutoloader(server.app, true).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -51,7 +51,7 @@ describe('Virtual hosts vhostsAutoloader `vhostsAutoloader()`', function() {
     vhostsAutoloader(server.app, {
       folder: true
     }).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -60,7 +60,7 @@ describe('Virtual hosts vhostsAutoloader `vhostsAutoloader()`', function() {
     vhostsAutoloader(server.app, {
       folder: '/nonexistent-or-notauthorized-working-directory'
     }).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -127,14 +127,14 @@ describe('Virtual hosts manual loader `vhostsAutoloader.loadVhost()`', function(
   });
   it('gets rejected if "settings" is not set.', function (done) {
     vhostsAutoloader.loadVhost().then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
   });
   it('gets rejected if "settings" is not an object.', function (done) {
     vhostsAutoloader.loadVhost(true).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -145,7 +145,7 @@ describe('Virtual hosts manual loader `vhostsAutoloader.loadVhost()`', function(
       domainName: 'localhost',
       debug: true
     }).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -156,7 +156,7 @@ describe('Virtual hosts manual loader `vhostsAutoloader.loadVhost()`', function(
       folder: server.dirname,
       debug: true
     }).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -168,7 +168,7 @@ describe('Virtual hosts manual loader `vhostsAutoloader.loadVhost()`', function(
       domainName: true,
       debug: true
     }).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -181,7 +181,7 @@ describe('Virtual hosts manual loader `vhostsAutoloader.loadVhost()`', function(
       mainFile: true,
       debug: true
     }).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -206,7 +206,7 @@ describe('Virtual hosts manual loader `vhostsAutoloader.loadVhost()`', function(
       domainName: 'localhost',
       debug: true
     }).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -217,7 +217,7 @@ describe('Virtual hosts manual loader `vhostsAutoloader.loadVhost()`', function(
       domainName: 'localhost',
       debug: true
     }).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -520,21 +520,21 @@ describe('Virtual host file as middleware `vhostsAutoloader.loadAsMiddleWare()`'
   });
   it('gets rejected if "fileOrFolder" and "settings" is not set.', function (done) {
     vhostsAutoloader.loadAsMiddleWare().then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
   });
   it('gets rejected if "fileOrFolder" is an illegal character.', function (done) {
     vhostsAutoloader.loadAsMiddleWare(':').then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
   });
   it('gets rejected if "settings" is not an object.', function (done) {
     vhostsAutoloader.loadAsMiddleWare('app.js', 'not an object').then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
@@ -543,7 +543,7 @@ describe('Virtual host file as middleware `vhostsAutoloader.loadAsMiddleWare()`'
     vhostsAutoloader.loadAsMiddleWare('app.js', {
       folder: {}
     }).then((data) => {
-      done(new Error('Promise was unexpectedly fulfilled.'))
+      done(new Error('Promise was unexpectedly fulfilled.'));
     }, (error) => {
       done(assert(error));
     });
