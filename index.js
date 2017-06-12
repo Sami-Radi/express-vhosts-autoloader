@@ -59,21 +59,21 @@ var logger = module.exports = new (winston.Logger)({
  * @param {string} settings.debug (optional) If set will be more verbose.
  */                                                                            
 let loadVhost = function loadVhost(settings) {
-  var settings = settings || {};
+  settings = settings || {};
   return new Promise((resolve, reject) => {
 
     if (typeof settings !== 'object') {
       let message = `[${tag}] "settings" must be an object.`;
       return reject(new TypeError(message));
-    };
+    }
 
     if(settings.debug) {
       logger.transports.console.level = 'debug';
-    };
+    }
 
     if (settings.expressServer) {
       this.expressServer = settings.expressServer;
-    };
+    }
 
     if (this.expressServer && typeof this.expressServer === 'function'
       && this.expressServer.use) {
@@ -81,44 +81,44 @@ let loadVhost = function loadVhost(settings) {
       if (!settings.domainName) {
         let message = `[${tag}] "settings.domainName" is required.`;
         return reject(new ReferenceError(message));
-      };
+      }
 
       if (typeof settings.domainName !== 'string') {
         let message = `[${tag}] "settings.domainName" is expected to be a string.`;
         return reject(new TypeError(message));
-      };
+      }
 
       settings.mainFile = settings.mainFile || 'app';
 
       if (typeof settings.mainFile !== 'string') {
         let message = `[${tag}] "settings.mainFile" is expected to be a string.`
         return reject(new TypeError(message));
-      };
+      }
 
       // compatibility code for ES < 6
       if (typeof String.prototype.endsWith !== 'function') {
           String.prototype.endsWith = function(suffix) {
               return this.indexOf(suffix, this.length - suffix.length) !== -1;
           };
-      };
+      }
 
       if(settings.mainFile.endsWith('.js')){
         settings.mainFile = settings.mainFile.substring(0, settings.mainFile.length - '.js'.length);
-      };
+      }
 
       settings.exportsProperty = settings.exportsProperty || 'app';
 
       if (typeof settings.exportsProperty !== 'string') {
         let message = `[${tag}] "settings.exportsProperty" is expected to be a string.`;
         return reject(new TypeError(message));
-      };
+      }
 
       settings.folder = settings.folder || path.normalize(process.cwd() + path.sep);
 
       if (typeof settings.folder !== 'string') {
         let message = `[${tag}] "settings.folder" must be a string.`;
         return reject(new TypeError(message));
-      };
+      }
 
       var moduleName = path.normalize(settings.folder + path.sep + settings.domainName + path.sep + settings.mainFile);
 
@@ -155,7 +155,7 @@ let loadVhost = function loadVhost(settings) {
               message = `[${tag}] "${settings.domainName}" module (automatically) loaded as an Express middleware.`;
             } else {
               message = `[${tag}] "${settings.domainName}" module (manually) loaded as an Express middleware.`;
-            };
+            }
             logger.info(message);
             return resolve({
               message: message
@@ -177,16 +177,16 @@ let loadVhost = function loadVhost(settings) {
               message = `[${tag}] Failed to load (automatically) "${settings.domainName}" module. "module.exports.${settings.exportsProperty}" not found in "${moduleFile}".`;
             } else {
               message = `[${tag}] Failed to load (manually) "${settings.domainName}" module. "module.exports.${settings.exportsProperty}" not found in "${moduleFile}".`;
-            };
+            }
             logger.error(message);
             return reject(new Error(message));
           }
-        };
+        }
       });
     } else {
       let message = `[${tag}] "settings.expressServer" is expected to be an object.`;
       return reject(new ReferenceError(message));
-    };
+    }
   });
 };
 
@@ -202,12 +202,12 @@ let loadVhost = function loadVhost(settings) {
  * @return {object} An express server object
  */
 let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
-  var settings = settings || {};
+  settings = settings || {};
   return new Promise((resolve, reject) => {
 
     if(settings.debug) {
       logger.transports.console.level = 'debug';
-    };
+    }
 
     if (expressServer && typeof expressServer === 'function' && expressServer.use) {
 
@@ -217,7 +217,7 @@ let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
         let message = `[${tag}] "settings" must be an object.`;
         logger.error(message);
         return reject(new TypeError(message));
-      };
+      }
 
       settings.folder = settings.folder || path.normalize(process.cwd() + path.sep);
 
@@ -225,7 +225,7 @@ let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
         let message = `[${tag}] "settings.folder" must be a string.`;
         logger.error(message);
         return reject(new TypeError(message));
-      };
+      }
 
       fs.readdir(settings.folder, (error, files) => {
         if (error) {
@@ -268,7 +268,7 @@ let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
                         }, (error) => {
                           return resolve(error);
                         });
-                      };
+                      }
                     });
                   } else {
                     let message = `[${tag}] ${fileOrFolder} is not a directory.`;
@@ -276,20 +276,20 @@ let vhostsAutoloader = function vhostsAutoloader(expressServer, settings) {
                       message: message
                     });
                   }
-                };
+                }
               });
             }));
             Promise.all(scan).then((data) => {
               resolve(data);
             });
           });
-        };
+        }
       });
     } else {
       let message = `[${tag}] Express server is required.`;
       logger.error(message);
       return reject(new ReferenceError(message));
-    };
+    }
   });
 };
 

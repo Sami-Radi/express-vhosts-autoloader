@@ -73,7 +73,7 @@ describe('Virtual hosts vhostsAutoloader `vhostsAutoloader()`', function() {
     });
   });
   it('responds 404 to http://127.0.0.1:' + (process.env['PORT'] || 8080) + ' .', function (done) {
-    app = vhostsAutoloader(server.app, {
+    vhostsAutoloader(server.app, {
       folder: server.dirname,
       debug: true
     }).then((data) => {
