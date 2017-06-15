@@ -3,6 +3,7 @@
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 [![Codacy Badge][codacy-image]][codacy-url]
+[![Dependency Status][dependencyci-image]][dependencyci-url]
 
 # Express VHosts Autoloader
 
@@ -158,3 +159,5 @@ For `www.foobarfoo.com` folder `.\www.foobarfoo.com` will be served, `foo.js` mo
 [coveralls-url]: https://coveralls.io/github/Sami-Radi/express-vhosts-autoloader?branch=master&random=32466236
 [codacy-image]: https://api.codacy.com/project/badge/Grade/ac9cdcfa20fd4366b9c0e94bd8e893d8
 [codacy-url]: https://www.codacy.com/app/VirtuoWorks/express-vhosts-autoloader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Sami-Radi/express-vhosts-autoloader&amp;utm_campaign=Badge_Grade
+[dependencyci-image]: https://dependencyci.com/github/Sami-Radi/express-vhosts-autoloader/badge
+[dependencyci-url]: https://dependencyci.com/github/Sami-Radi/express-vhosts-autoloader
