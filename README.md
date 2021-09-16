@@ -17,7 +17,7 @@ npm install express-vhosts-autoloader
 
 ## Usage
 
-This module autoloads your express app's as express middlewares when their directorys matches the domain name.
+This module autoloads your express app's as express middlewares when their directories matches the domain name.
 
 Your directory names **must** be the same as your domain names in order for this module to work.
 
@@ -91,7 +91,7 @@ This function tries to load any `app.js` file in any directory in the server roo
 #### Example
 
 ```javascript
-// Tries to load any file in directorys located inside /home/user
+// Tries to load any file in directories located inside /home/user
 vhostsAutoloader(expressServer, {
   directory: "/home/user",
 });
