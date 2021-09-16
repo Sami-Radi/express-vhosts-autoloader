@@ -1,0 +1,6 @@
+# Ignore artifacts:
+build
+coverage
+.vscode
+.circleci
+.nyc_output
