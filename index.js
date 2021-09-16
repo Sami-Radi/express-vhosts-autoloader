@@ -15,12 +15,12 @@
 const tag = `Virtual Hosts Autoloader`;
 
 // core modules
-const fs = require(`fs`);
-const path = require(`path`);
+const fs = require("fs");
+const path = require("path");
 
 // third party modules
-const vhost = require(`vhost`);
-const winston = require(`winston`);
+const vhost = require("vhost");
+const winston = require("winston");
 
 /**
  * Module settings.
@@ -104,8 +104,8 @@ var Autoloader = function () {
             };
         }
 
-        if(settings.mainFile.endsWith(`.js`)){
-          settings.mainFile = settings.mainFile.substring(0, settings.mainFile.length - `.js`.length);
+        if(settings.mainFile.endsWith(".js")){
+          settings.mainFile = settings.mainFile.substring(0, settings.mainFile.length - ".js".length);
         }
 
         settings.exportsProperty = settings.exportsProperty || `app`;
@@ -150,7 +150,7 @@ var Autoloader = function () {
             logger.debug(message);
             module = require(moduleName);
             if (module[settings.exportsProperty]
-              && typeof module[settings.exportsProperty] === `function`) {
+              && typeof module[settings.exportsProperty] === "function") {
               this.expressServer.use(vhost(settings.domainName, module[settings.exportsProperty]));
               let message;
               if (settings.autoloader) {

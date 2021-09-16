@@ -25,25 +25,25 @@ Let's assume you have this folder structure :
 
 My Server Folder :
 
-  * `server.js`
+* `server.js`
 
-  * `node_modules`
-      * `express`
-      * `express-vhosts-autoloader`
+* `node_modules`
+    * `express`
+    * `express-vhosts-autoloader`
 
-  * `www.nodeapp1.com`
-      * `app.js `
+* `www.nodeapp1.com`
+    * `app.js `
 
-  * `www.nodeapp2.com`
-      * `app.js`
+* `www.nodeapp2.com`
+    * `app.js`
 
-  * `www.nodeapp3.com`
-      * `app.js`
+* `www.nodeapp3.com`
+    * `app.js`
 
 And your domain names (pointing to your server) are :
-  * `www.nodeapp1.com`
-  * `www.nodeapp2.com`
-  * `www.nodeapp3.com`
+* `www.nodeapp1.com`
+* `www.nodeapp2.com`
+* `www.nodeapp3.com`
 
 ```javascript
 // Load express.
@@ -77,13 +77,13 @@ Each `app.js` middleware should end with something like `module.exports.app = ap
 
 This function tries to load any `app.js` file in any folder in the server root folder as an express middleware trigger only when the required domain name is provider in the request.
 
-  * `expressServer` (object, **required**) express server instance.
+* `expressServer` (object, **required**) express server instance.
 
-  * `options` : (object, optional).
-      * `options.debug` (boolean, optional) : defaults to `false`. If `true` makes the module more verbose in the console.
-      * `options.folder` (string, optional) : defaults to server root directory. If set `vhostsAutoloader` tries to load any `app.js` from the folder provided.
+* `options` : (object, optional).
+    * `options.debug` (boolean, optional) : defaults to `false`. If `true` makes the module more verbose in the console.
+    * `options.folder` (string, optional) : defaults to server root directory. If set `vhostsAutoloader` tries to load any `app.js` from the folder provided.
 
-#### Example :
+#### Example
 
 ```javascript
 // Tries to load any file in folders located inside /home/user
@@ -95,13 +95,13 @@ vhostsAutoloader(expressServer, {
 
 This utility method loads an express middleware triggered only when the required host (i.e domain name) is provided.
 
-  * `options` : (object, **required**).
-      * `options.debug` (boolean) : defaults to `false`. If `true` makes the module more verbose in the console.
-      * `options.domainName` (string, **required**) : the domain name / folder name
-      * `options.mainFile` (string, optional) : defaults to `'app'`. If set the method will try to load the file named after the provided value.
-      * `options.exportsProperty` (string, optional) : defaults to `'app'`. If set the method will try to use the exports property named after the provided value
-      * `options.expressServer` (object, optional | required) : Optional if used after calling `vhostsAutoloader`. **Required** if `vhostsAutoloader.loadVhost` is used alone.
-      * `options.folder` (object, optional) : defaults to server root directory. If set `vhostsAutoloader.loadVhost` tries to load the module from the `folder\domainName` folder.
+* `options` : (object, **required**).
+    * `options.debug` (boolean) : defaults to `false`. If `true` makes the module more verbose in the console.
+    * `options.domainName` (string, **required**) : the domain name / folder name
+    * `options.mainFile` (string, optional) : defaults to `'app'`. If set the method will try to load the file named after the provided value.
+    * `options.exportsProperty` (string, optional) : defaults to `'app'`. If set the method will try to use the exports property named after the provided value
+    * `options.expressServer` (object, optional | required) : Optional if used after calling `vhostsAutoloader`. **Required** if `vhostsAutoloader.loadVhost` is used alone.
+    * `options.folder` (object, optional) : defaults to server root directory. If set `vhostsAutoloader.loadVhost` tries to load the module from the `folder\domainName` folder.
 
 #### Examples
 
