@@ -3,7 +3,6 @@
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 [![Codacy Badge][codacy-image]][codacy-url]
-[![Dependency Status][dependencyci-image]][dependencyci-url]
 
 # Express VHosts Autoloader
 
@@ -19,7 +18,7 @@ $ npm install express-vhosts-autoloader
 
 This module autoloads your express app's as express middlewares when their folders matches the domain name.
 
-Your folder names **must** be the same as your domain names in order for this module to work. 
+Your folder names **must** be the same as your domain names in order for this module to work.
 
 Let's assume you have this folder structure :
 
@@ -88,16 +87,16 @@ vhostsAutoloader(expressServer, {
 ```
 ### `Promise` <= vhostsAutoloader.loadVhost(options)
 
-This utility method loads an express middleware triggered only when the required host (i.e domain name) is provided. 
+This utility method loads an express middleware triggered only when the required host (i.e domain name) is provided.
 
 * `options` : (object, **required**).
   *  `options.debug` (boolean) : defaults to `false`. If `true` makes the module more verbose in the console.
   *  `options.domainName` (string, **required**) : the domain name / folder name
-  *  `options.mainFile` (string, optional) : defaults to `'app'`. If set the method will try to load the file named after the provided value. 
+  *  `options.mainFile` (string, optional) : defaults to `'app'`. If set the method will try to load the file named after the provided value.
   *  `options.exportsProperty` (string, optional) : defaults to `'app'`. If set the method will try to use the exports property named after the provided value
   *  `options.expressServer` (object, optional | required) : Optional if used after calling `vhostsAutoloader`. **Required** if `vhostsAutoloader.loadVhost` is used alone.
   *  `options.folder` (object, optional) : defaults to server root directory. If set `vhostsAutoloader.loadVhost` tries to load the module from the `folder\domainName` folder.
- 
+
 ##### Examples
 
 Used **after calling** `vhostsAutoloader`
@@ -149,15 +148,13 @@ For `www.foobarfoo.com` folder `.\www.foobarfoo.com` will be served, `foo.js` mo
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/express-vhosts-autoloader.svg
+[npm-image]: https://img.shields.io/npm/v/express-vhosts-autoloader
 [npm-url]: https://npmjs.org/package/express-vhosts-autoloader
-[downloads-image]: https://img.shields.io/npm/dm/express-vhosts-autoloader.svg
+[downloads-image]: https://img.shields.io/npm/dw/express-vhosts-autoloader
 [downloads-url]: https://npmjs.org/package/express-vhosts-autoloader
-[travis-image]: https://api.travis-ci.org/Sami-Radi/express-vhosts-autoloader.svg?branch=master
-[travis-url]: https://travis-ci.org/Sami-Radi/express-vhosts-autoloader
+[circleci-image]:  https://
+[circleci-url]:  https://
 [coveralls-image]: https://coveralls.io/repos/github/Sami-Radi/express-vhosts-autoloader/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/Sami-Radi/express-vhosts-autoloader?branch=master&random=32466236
-[codacy-image]: https://api.codacy.com/project/badge/Grade/ac9cdcfa20fd4366b9c0e94bd8e893d8
-[codacy-url]: https://www.codacy.com/app/VirtuoWorks/express-vhosts-autoloader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Sami-Radi/express-vhosts-autoloader&amp;utm_campaign=Badge_Grade
-[dependencyci-image]: https://dependencyci.com/github/Sami-Radi/express-vhosts-autoloader/badge
-[dependencyci-url]: https://dependencyci.com/github/Sami-Radi/express-vhosts-autoloader
+[coveralls-url]: https://coveralls.io/github/Sami-Radi/express-vhosts-autoloader?branch=master
+[codacy-image]: https://app.codacy.com/project/badge/Grade/8123da10bc2b4a888c2886db6104cf35
+[codacy-url]: https://www.codacy.com/gh/Sami-Radi/express-vhosts-autoloader/dashboard
