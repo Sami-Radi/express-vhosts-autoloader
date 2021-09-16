@@ -1,6 +1,6 @@
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
-[![Build Status][travis-image]][travis-url]
+[![Build Status][circleci-image]][circleci-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 [![Codacy Badge][codacy-image]][codacy-url]
 
@@ -152,8 +152,8 @@ For `www.foobarfoo.com` folder `.\www.foobarfoo.com` will be served, `foo.js` mo
 [npm-url]: https://npmjs.org/package/express-vhosts-autoloader
 [downloads-image]: https://img.shields.io/npm/dw/express-vhosts-autoloader
 [downloads-url]: https://npmjs.org/package/express-vhosts-autoloader
-[circleci-image]:  https://
-[circleci-url]:  https://
+[circleci-image]:  https://circleci.com/gh/Sami-Radi/express-vhosts-autoloader/tree/master.svg?style=svg
+[circleci-url]:  https://circleci.com/gh/Sami-Radi/express-vhosts-autoloader/tree/master
 [coveralls-image]: https://coveralls.io/repos/github/Sami-Radi/express-vhosts-autoloader/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/Sami-Radi/express-vhosts-autoloader?branch=master
 [codacy-image]: https://app.codacy.com/project/badge/Grade/8123da10bc2b4a888c2886db6104cf35

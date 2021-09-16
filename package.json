@@ -1,6 +1,6 @@
 {
   "name": "express-vhosts-autoloader",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Autoloads express middlewares using the hostname as the module foldername.",
   "main": "index.js",
   "dependencies": {
