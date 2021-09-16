@@ -1,42 +1,42 @@
 /*!
- * express virtual hosts autoloader 
+ * express virtual hosts autoloader
  * @author sami.radi@virtuoworks.com (Sami Radi)
  * @company VirtuoWorks
  * @license MIT
  */
 
-'use strict';
+`use strict`;
 
 /**
  * Module dependencies.
  * @private
  */
 // module tag
-const tag = 'Virtual Hosts Autoloader';
+const tag = `Virtual Hosts Autoloader`;
 
 // core modules
-const fs = require('fs');
-const path = require('path');
+const fs = require(`fs`);
+const path = require(`path`);
 
 // third party modules
-const vhost = require('vhost');
-const winston = require('winston');
+const vhost = require(`vhost`);
+const winston = require(`winston`);
 
 /**
  * Module settings.
  */
 
 winston.addColors({
-  info: 'green',
-  error: 'red',
-  warn: 'yellow',
-  debug: 'grey',
+  info: `green`,
+  error: `red`,
+  warn: `yellow`,
+  debug: `grey`,
 });
 
 const logger = module.exports = new (winston.Logger)({
   transports: [
     new (winston.transports.Console)({
-      colorize: 'all'
+      colorize: `all`
     })
   ]
 });
@@ -64,20 +64,20 @@ var Autoloader = function () {
     settings = settings || {};
     return new Promise((resolve, reject) => {
 
-      if (typeof settings !== 'object') {
+      if (typeof settings !== `object`) {
         let message = `[${tag}] "settings" must be an object.`;
         return reject(new TypeError(message));
       }
 
       if(settings.debug) {
-        logger.transports.console.level = 'debug';
+        logger.transports.console.level = `debug`;
       }
 
       if (settings.expressServer) {
         this.expressServer = settings.expressServer;
       }
 
-      if (this.expressServer && typeof this.expressServer === 'function'
+      if (this.expressServer && typeof this.expressServer === `function`
         && this.expressServer.use) {
 
         if (!settings.domainName) {
@@ -85,46 +85,46 @@ var Autoloader = function () {
           return reject(new ReferenceError(message));
         }
 
-        if (typeof settings.domainName !== 'string') {
+        if (typeof settings.domainName !== `string`) {
           let message = `[${tag}] "settings.domainName" is expected to be a string.`;
           return reject(new TypeError(message));
         }
 
-        settings.mainFile = settings.mainFile || 'app';
+        settings.mainFile = settings.mainFile || `app`;
 
-        if (typeof settings.mainFile !== 'string') {
+        if (typeof settings.mainFile !== `string`) {
           let message = `[${tag}] "settings.mainFile" is expected to be a string.`;
           return reject(new TypeError(message));
         }
 
         // compatibility code for ES < 6
-        if (typeof String.prototype.endsWith !== 'function') {
+        if (typeof String.prototype.endsWith !== `function`) {
             String.prototype.endsWith = function(suffix) {
                 return this.indexOf(suffix, this.length - suffix.length) !== -1;
             };
         }
 
-        if(settings.mainFile.endsWith('.js')){
-          settings.mainFile = settings.mainFile.substring(0, settings.mainFile.length - '.js'.length);
+        if(settings.mainFile.endsWith(`.js`)){
+          settings.mainFile = settings.mainFile.substring(0, settings.mainFile.length - `.js`.length);
         }
 
-        settings.exportsProperty = settings.exportsProperty || 'app';
+        settings.exportsProperty = settings.exportsProperty || `app`;
 
-        if (typeof settings.exportsProperty !== 'string') {
+        if (typeof settings.exportsProperty !== `string`) {
           let message = `[${tag}] "settings.exportsProperty" is expected to be a string.`;
           return reject(new TypeError(message));
         }
 
         settings.folder = settings.folder || path.normalize(process.cwd() + path.sep);
 
-        if (typeof settings.folder !== 'string') {
+        if (typeof settings.folder !== `string`) {
           let message = `[${tag}] "settings.folder" must be a string.`;
           return reject(new TypeError(message));
         }
 
         let moduleName = path.normalize(settings.folder + path.sep + settings.domainName + path.sep + settings.mainFile);
 
-        let moduleFile = moduleName + '.js';
+        let moduleFile = moduleName + `.js`;
 
         let message = `[${tag}] Trying to access ${moduleFile} file...`;
         logger.debug(message);
@@ -150,7 +150,7 @@ var Autoloader = function () {
             logger.debug(message);
             module = require(moduleName);
             if (module[settings.exportsProperty]
-              && typeof module[settings.exportsProperty] === 'function') {
+              && typeof module[settings.exportsProperty] === `function`) {
               this.expressServer.use(vhost(settings.domainName, module[settings.exportsProperty]));
               let message;
               if (settings.autoloader) {
@@ -196,7 +196,7 @@ var Autoloader = function () {
    * Loads a virtual host middleware according to folder name (e.g :
    * folder www.virtuoworks.com will be bound to www.virtuoworks.com virtual
    * host).
-   * 
+   *
    * @param {string} fileOrFolder A file or directory name.
    * @param {object} settings (optional) A settings object.
    * @param {string} settings.folder (optional) A string representing the folder
@@ -207,12 +207,12 @@ var Autoloader = function () {
     settings = settings || {};
     return new Promise((resolve, reject) => {
 
-      if (typeof fileOrFolder !== 'string') {
+      if (typeof fileOrFolder !== `string`) {
         let message = `[${tag}] "fileOrFolder" is expected to be a string.`;
         return reject(new TypeError(message));
       }
 
-      if (typeof settings !== 'object') {
+      if (typeof settings !== `object`) {
         let message = `[${tag}] "settings" must be an object.`;
         logger.error(message);
         return reject(new TypeError(message));
@@ -220,30 +220,30 @@ var Autoloader = function () {
 
       settings.folder = settings.folder || path.normalize(process.cwd() + path.sep);
 
-      if (typeof settings.folder !== 'string') {
+      if (typeof settings.folder !== `string`) {
         let message = `[${tag}] "settings.folder" must be a string.`;
         logger.error(message);
         return reject(new TypeError(message));
       }
-      
+
       fs.stat(path.normalize(settings.folder + path.sep + fileOrFolder), (error, stats) => {
         if (error) {
           let message = `[${tag}] Cannot read : ${fileOrFolder}.`;
           logger.warn(message);
           return reject({
-            message: message,
-            error: error
+            message,
+            error
           });
         } else {
           if (stats.isDirectory()) {
-            let moduleFile = path.normalize(settings.folder + path.sep + fileOrFolder + path.sep + 'app.js');
+            let moduleFile = path.normalize(settings.folder + path.sep + fileOrFolder + path.sep + `app.js`);
             fs.access(moduleFile, fs.R_OK, (error) => {
               if (error) {
                 let message = `[${tag}] Cannot read/find : ${moduleFile}.`;
                 logger.warn(message);
                 return reject({
-                  message: message,
-                  error: error
+                  message,
+                  error
                 });
               } else {
                 let message = `[${tag}] Loading ${moduleFile} module as an Express middleware.`;
@@ -263,7 +263,7 @@ var Autoloader = function () {
           } else {
             let message = `[${tag}] ${fileOrFolder} is not a directory.`;
             reject({
-              message: message
+              message
             });
           }
         }
@@ -275,7 +275,7 @@ var Autoloader = function () {
    * Auto detects and loads virtual hosts according to folder name (e.g :
    * folder www.virtuoworks.com will be bound to www.virtuoworks.com virtual
    * host).
-   * 
+   *
    * @param {object} expressServer An express server object
    * @param {object} settings (optional) A settings object.
    * @param {string} settings.folder (optional) A string representing the folder
@@ -287,14 +287,14 @@ var Autoloader = function () {
     return new Promise((resolve, reject) => {
 
       if(settings.debug) {
-        logger.transports.console.level = 'debug';
+        logger.transports.console.level = `debug`;
       }
 
-      if (expressServer && typeof expressServer === 'function' && expressServer.use) {
+      if (expressServer && typeof expressServer === `function` && expressServer.use) {
 
         this.expressServer = expressServer;
 
-        if (typeof settings !== 'object') {
+        if (typeof settings !== `object`) {
           let message = `[${tag}] "settings" must be an object.`;
           logger.error(message);
           return reject(new TypeError(message));
@@ -302,7 +302,7 @@ var Autoloader = function () {
 
         settings.folder = settings.folder || path.normalize(process.cwd() + path.sep);
 
-        if (typeof settings.folder !== 'string') {
+        if (typeof settings.folder !== `string`) {
           let message = `[${tag}] "settings.folder" must be a string.`;
           logger.error(message);
           return reject(new TypeError(message));
