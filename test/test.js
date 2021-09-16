@@ -84,7 +84,9 @@ describe("Virtual hosts vhostsAutoloader \"vhostsAutoloader()\"", function() {
     });
   });
   it("can scan automatically current working directory if no directory is given.", function (done) {
-    vhostsAutoloader(server.app).then((data) => {
+    vhostsAutoloader(server.app, {
+      ignoreList: []
+    }).then((data) => {
       done();
     }, (error) => {
       done(error);
