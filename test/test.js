@@ -47,7 +47,7 @@ describe("Virtual hosts vhostsAutoloader \"vhostsAutoloader()\"", function() {
       done(assert(error));
     });
   });
-  it("gets rejected if \"settings.folder\" is not a string.", function (done) {
+  it("gets rejected if \"settings.folder\" is not a string (deprecated).", function (done) {
     vhostsAutoloader(server.app, {
       folder: true
     }).then((data) => {
@@ -56,16 +56,34 @@ describe("Virtual hosts vhostsAutoloader \"vhostsAutoloader()\"", function() {
       done(assert(error));
     });
   });
-  it("gets rejected if working directory cannot be red.", function (done) {
+  it("gets rejected if \"settings.directory\" is not a string.", function (done) {
     vhostsAutoloader(server.app, {
-      folder: "/nonexistent-or-notauthorized-working-directory"
+      directory: true
     }).then((data) => {
       done(new Error("Promise was unexpectedly fulfilled."));
     }, (error) => {
       done(assert(error));
     });
   });
-  it("can scan automatically current working directory if no folder is given.", function (done) {
+  it("gets rejected if working folder cannot be red (deprecated).", function (done) {
+    vhostsAutoloader(server.app, {
+      folder: "/nonexistent-or-notauthorized-working-folder"
+    }).then((data) => {
+      done(new Error("Promise was unexpectedly fulfilled."));
+    }, (error) => {
+      done(assert(error));
+    });
+  });
+  it("gets rejected if working directory cannot be red.", function (done) {
+    vhostsAutoloader(server.app, {
+      directory: "/nonexistent-or-notauthorized-working-directory"
+    }).then((data) => {
+      done(new Error("Promise was unexpectedly fulfilled."));
+    }, (error) => {
+      done(assert(error));
+    });
+  });
+  it("can scan automatically current working directory if no directory is given.", function (done) {
     vhostsAutoloader(server.app).then((data) => {
       done();
     }, (error) => {
@@ -74,7 +92,7 @@ describe("Virtual hosts vhostsAutoloader \"vhostsAutoloader()\"", function() {
   });
   it("responds 404 to http://127.0.0.1:" + (process.env["PORT"] || 8080) + " .", function (done) {
     vhostsAutoloader(server.app, {
-      folder: server.dirname,
+      directory: server.dirname,
       debug: true
     }).then((data) => {
       server.start(() => {
@@ -88,7 +106,7 @@ describe("Virtual hosts vhostsAutoloader \"vhostsAutoloader()\"", function() {
   });
   it("responds 200 to http://localhost:" + (process.env["PORT"] || 8080) + " .", function (done) {
     vhostsAutoloader(server.app, {
-      folder: server.dirname,
+      directory: server.dirname,
       debug: true
     }).then((data) => {
       server.start(() => {
@@ -141,7 +159,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   });
   it("gets rejected if \"settings.expressServer\" is not set.", function (done) {
     vhostsAutoloader.loadVhost({
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       debug: true
     }).then((data) => {
@@ -153,7 +171,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("gets rejected if \"settings.domainName\" is not set.", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       debug: true
     }).then((data) => {
       done(new Error("Promise was unexpectedly fulfilled."));
@@ -164,7 +182,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("gets rejected if \"settings.domainName\" is not a string.", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: true,
       debug: true
     }).then((data) => {
@@ -176,7 +194,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("gets rejected if \"settings.mainFile\" is not a string.", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: true,
       debug: true
@@ -189,7 +207,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("gets rejected if \"settings.exportsProperty\" is not a string.", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       exportsProperty: true,
       debug: true
@@ -199,10 +217,22 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
       done(assert(error));
     });
   });
-  it("gets rejected if \"settings.folder\" is not a string.", function (done) {
+  it("gets rejected if \"settings.folder\" is not a string (deprecated).", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
       folder: true,
+      domainName: "localhost",
+      debug: true
+    }).then((data) => {
+      done(new Error("Promise was unexpectedly fulfilled."));
+    }, (error) => {
+      done(assert(error));
+    });
+  });
+  it("gets rejected if \"settings.directory\" is not a string.", function (done) {
+    vhostsAutoloader.loadVhost({
+      expressServer: server.app,
+      directory: true,
       domainName: "localhost",
       debug: true
     }).then((data) => {
@@ -225,7 +255,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 200 to http://localhost:" + (process.env["PORT"] || 8080) + " .", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       debug: true
     }).then((data) => {
@@ -242,7 +272,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 404 to http://127.0.0.1:" + (process.env["PORT"] || 8080) + " with default app.js .", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       debug: true
     }).then((data) => {
@@ -258,7 +288,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 200 to http://localhost:" + (process.env["PORT"] || 8080) + " with bar as main file .", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "bar",
       debug: true
@@ -277,7 +307,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
     String.prototype.endsWith = null;
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "bar",
       debug: true
@@ -295,7 +325,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 200 to http://localhost:" + (process.env["PORT"] || 8080) + " with bar.js as main file .", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "bar.js",
       debug: true
@@ -313,7 +343,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 200 to http://localhost:" + (process.env["PORT"] || 8080) + " with bar as main file .", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "bar",
       debug: true
@@ -331,7 +361,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 200 to http://localhost:" + (process.env["PORT"] || 8080) + " with bar.js as main file .", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "bar.js",
       debug: true
@@ -349,7 +379,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 200 to http://localhost:" + (process.env["PORT"] || 8080) + " with foo.js as main file and module.exports.bar .", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "foo",
       exportsProperty: "bar",
@@ -368,7 +398,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 200 to http://localhost:" + (process.env["PORT"] || 8080) + " with foo as main file and module.exports.bar .", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "foo.js",
       exportsProperty: "bar",
@@ -387,7 +417,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 500 to http://localhost:" + (process.env["PORT"] || 8080) + " with unknown.js as main file and debug enabled.", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "unknown",
       debug: true
@@ -405,7 +435,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 500 to http://localhost:" + (process.env["PORT"] || 8080) + " with unknown.js as main file and debug disabled.", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer: server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "unknown"
     }).then((data) => {
@@ -422,7 +452,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 500 to http://localhost:" + (process.env["PORT"] || 8080) + " with bar.js as main file and module.exports.unknown and debug enabled.", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer:server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "bar",
       exportsProperty: "unknown",
@@ -441,7 +471,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 500 to http://localhost:" + (process.env["PORT"] || 8080) + " with bar.js as main file and module.exports.unknown and debug disabled.", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer:server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "bar",
       exportsProperty: "unknown"
@@ -459,7 +489,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 500 to http://localhost:" + (process.env["PORT"] || 8080) + " with bar.js as main file and module.exports.unknown, debug enabled, mocked as automatic.", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer:server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "bar",
       autoloader: true,
@@ -479,7 +509,7 @@ describe("Virtual hosts manual loader \"vhostsAutoloader.loadVhost()\"", functio
   it("responds 500 to http://localhost:" + (process.env["PORT"] || 8080) + " with bar.js as main file and module.exports.unknown, debug disabled, mocked as automatic.", function (done) {
     vhostsAutoloader.loadVhost({
       expressServer:server.app,
-      folder: server.dirname,
+      directory: server.dirname,
       domainName: "localhost",
       mainFile: "bar",
       autoloader: true,
@@ -518,14 +548,14 @@ describe("Virtual host file as middleware \"vhostsAutoloader.loadAsMiddleWare()\
     delete require.cache[require.resolve("server")];
     server = require("server");
   });
-  it("gets rejected if \"fileOrFolder\" and \"settings\" is not set.", function (done) {
+  it("gets rejected if \"fileOrDirectory\" and \"settings\" is not set.", function (done) {
     vhostsAutoloader.loadAsMiddleWare().then((data) => {
       done(new Error("Promise was unexpectedly fulfilled."));
     }, (error) => {
       done(assert(error));
     });
   });
-  it("gets rejected if \"fileOrFolder\" is an illegal character.", function (done) {
+  it("gets rejected if \"fileOrDirectory\" is an illegal character.", function (done) {
     vhostsAutoloader.loadAsMiddleWare(":").then((data) => {
       done(new Error("Promise was unexpectedly fulfilled."));
     }, (error) => {
@@ -539,9 +569,27 @@ describe("Virtual host file as middleware \"vhostsAutoloader.loadAsMiddleWare()\
       done(assert(error));
     });
   });
-  it("gets rejected if \"settings.folder\" is not a string.", function (done) {
+  it("gets rejected if \"settings.folder\" is not a string (deprecated).", function (done) {
     vhostsAutoloader.loadAsMiddleWare("app.js", {
       folder: {}
+    }).then((data) => {
+      done(new Error("Promise was unexpectedly fulfilled."));
+    }, (error) => {
+      done(assert(error));
+    });
+  });
+  it("gets rejected if \"settings.directory\" is not a string.", function (done) {
+    vhostsAutoloader.loadAsMiddleWare("app.js", {
+      directory: {}
+    }).then((data) => {
+      done(new Error("Promise was unexpectedly fulfilled."));
+    }, (error) => {
+      done(assert(error));
+    });
+  });
+  it("gets rejected if \"settings.ignoreList\" is not an Array.", function (done) {
+    vhostsAutoloader.loadAsMiddleWare("app.js", {
+      ignoreList: {}
     }).then((data) => {
       done(new Error("Promise was unexpectedly fulfilled."));
     }, (error) => {
