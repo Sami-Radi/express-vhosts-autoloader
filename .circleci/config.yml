@@ -1,0 +1,37 @@
+version: 2.1
+orbs:
+  coveralls: coveralls/coveralls@1.0.6
+jobs:
+  test:
+    docker:
+      - image: circleci/node:14.17.5
+    steps:
+      - checkout
+      - run:
+          name: Checking code
+          command: |
+            echo 'Checking code integrity...'
+            ls -la
+      - run:
+          name: Checking node version
+          command: |
+            echo 'Now checking node version...'
+            node -v
+      - run:
+          name: Installing dependencies
+          command: |
+            echo 'Now installing dependencies...'
+            npm install
+            echo 'Dependency installation completed successfully!'
+      - run:
+          name: Starting tests
+          command: npm test
+      - coveralls/upload:
+          path_to_lcov: ./coverage/lcov.info
+          token: COVERALLS_REPO_TOKEN
+          coveralls_endpoint: https://coveralls.io
+workflows:
+  version: 2
+  idylisapi_workflow:
+    jobs:
+      - test
